@@ -27,12 +27,6 @@ University Department Accounts:
     fields:
         Id: sf_id
         Name: name
-    lookups:
-        ParentId:
-            key_field: department_id
-            table: accounts
-            join_field: id
-            value_field: sf_id
     record_type: University_Department
     filters:
         - 'record_type is "University_Department"'
@@ -43,13 +37,6 @@ Academic Programs Accounts:
     fields:
         Id: sf_id
         Name: name
-        RecordType.DeveloperName: record_type
-    lookups:
-        ParentId:
-            key_field: department_id
-            table: accounts
-            join_field: id
-            value_field: sf_id
     record_type: Academic_Program
     filters:
         - 'record_type is "Academic_Program"'
@@ -61,12 +48,6 @@ Sports Organization Accounts:
         Id: sf_id
         Name: name
     record_type: Sports_Organization
-    lookups:
-        ParentId:
-            key_field: department_id
-            table: accounts
-            join_field: id
-            value_field: sf_id
     filters:
         - 'record_type is "Sports_Organization"'
 
@@ -298,11 +279,11 @@ Course Connections:
             value_field: sf_id
         Course_Offering__c:
             key_field: course_offering_id
-            table: accounts
+            table: course_offerings
             join_field: id
             value_field: sf_id
         Program_Enrollment__c:
             key_field: program_enrollment_id
-            table: accounts
+            table: program_enrollments
             join_field: id
             value_field: sf_id

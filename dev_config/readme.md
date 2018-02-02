@@ -61,3 +61,13 @@ New/Modified Flows
 
 ### `install_beta`
   Modified - Deploys DEV configiguration and runs some post install methods as the final tasks
+
+### `test_data_dev_org`
+  Deploys the Astro U Data Set to a dev org, intended for after running `dev_org` flow
+
+
+Astro University Test Data
+--------------------------
+Thanks to Jace Bryan, we have the Astro U/Hands on Training data set available for devs. 
+
+CCI data loader doesn't support ParentID on account yet, so that's...coming.

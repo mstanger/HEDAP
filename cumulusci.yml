@@ -188,7 +188,7 @@ flows:
             10:
                 task: execute_mappings_apex
 
-    dev_org_test_data:
+    test_data_dev_org:
         tasks:
             1: 
                 task: execute_delete_mappings_apex
