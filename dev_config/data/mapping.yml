@@ -1,0 +1,312 @@
+### HEDA STUFF
+
+# ACCOUNTS
+Admin Accounts:
+    sf_object: Account
+    table: accounts
+    fields:
+        Id: sf_id
+        Name: name
+        RecordType.DeveloperName: record_type
+    record_type: Administrative
+    filters:
+        - 'record_type is "Administrative"'
+
+University Department Accounts:
+    sf_object: Account
+    table: accounts
+    fields:
+        Id: sf_id
+        Name: name
+        RecordType.DeveloperName: record_type
+    lookups:
+        ParentId:
+            key_field: department_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+    record_type: University_Department
+    filters:
+        - 'record_type is "University_Department"'
+
+Academic Programs Accounts:
+    sf_object: Account
+    table: accounts
+    fields:
+        Id: sf_id
+        Name: name
+        RecordType.DeveloperName: record_type
+    lookups:
+        ParentId:
+            key_field: department_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+    record_type: Academic_Program
+    filters:
+        - 'record_type is "Academic_Program"'
+
+Educational Institution Accounts:
+    sf_object: Account
+    table: accounts
+    fields:
+        Id: sf_id
+        Name: name
+        RecordType.DeveloperName: record_type
+    record_type: Educational_Institution
+    filters:
+        - 'record_type is "Educational_Institution"'
+
+Sports Organization Accounts:
+    sf_object: Account
+    table: accounts
+    fields:
+        Id: sf_id
+        Name: name
+        RecordType.DeveloperName: record_type
+    record_type: Sports_Organization
+    lookups:
+        ParentId:
+            key_field: department_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+    filters:
+        - 'record_type is "Sports_Organization"'
+
+# Catalog
+Courses:
+    sf_object: Course__c
+    table: courses
+    fields:
+        Id: sf_id
+        Name: name
+        Course_ID__c: course_id
+        Credit_Hours__c: course_hours
+        Description__c: description
+        Extended_Description__c: long_description
+    lookups:
+        Account__c:
+            key_field: account_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+
+Terms:
+    sf_object: Term__c
+    table: terms
+    fields:
+        Id: sf_id
+        Name: name
+        Start_Date__c: start_date
+        End_Date__c: end_date
+    lookups:
+        Account__c:
+            key_field: account_id
+            table: accounts     
+            join_field: id
+            value_field: sf_id
+
+# People
+Contacts:
+    sf_object: Contact
+    table: contacts
+    fields:
+        Id: sf_id
+        Salutation: salutation
+        FirstName: first_name
+        LastName: last_name
+        Email: email
+        AlternateEmail__c: alternate_email
+        Preferred_Email__c: preferred_email
+        Phone: phone
+        Title: job_title
+        Gender__c: gender
+        Birthdate: birthdate
+        Citizenship__c: citizenship
+        Country_of_Origin__c: country_of_origin
+        Dual_Citizenship__c: dual_citizenship
+        Ethnicity__c: ethnicity
+        FERPA__c: ferpa
+        Financial_Aid_Applicant__c: financial_aid_applicant
+        HIPAA__c: hipaa
+        HIPAA_Detail__c: hipaa_detail
+        HomePhone: home_phone
+        Military_Background__c: military_background
+        Military_Service__c: military_service
+        MobilePhone: mobile_phone
+        OtherPhone: other_phone
+        PreferredPhone__c: preferred_phone
+        Primary_Address_Type__c: primary_address_type
+        Race__c: race
+        Religion__c: religion
+        Secondary_Address_Type__c: secondary_address_type
+        Social_Security_Number__c: ssn
+        UniversityEmail__c: university_email
+        Work_Address__c: work_address
+        WorkEmail__c: work_email
+        WorkPhone__c: work_phone
+        MailingStreet: mailing_street
+        MailingCity: mailing_city
+        MailingState: mailing_state
+        MailingCountry: mailing_country
+        MailingPostalCode: mailing_postal_code        
+    lookups:
+        AccountId:
+            key_field: account_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Primary_Academic_Program__c:
+            key_field: primary_program_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Primary_Organization__c:
+            key_field: organization_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Primary_Department__c:
+            key_field: department_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Primary_Educational_Institution__c:
+            key_field: education_institution_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Primary_Household__c:
+            key_field: household_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Primary_Sports_Organization__c:
+            key_field: sports_org_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+
+
+# Catalog
+Course Offerings:
+    sf_object: Course_Offering__c
+    table: course_offerings
+    fields:
+        Id: sf_id
+        Name: course_offering_slug
+        Capacity__c: capacity
+        End_Date__c: end_date
+        Section_ID__c: section_id
+        Start_Date__c: start_date
+    lookups:
+        Term__c:
+            key_field: term_id
+            table: terms
+            join_field: id
+            value_field: sf_id
+        Course__c:
+            key_field: course_id
+            table: courses
+            join_field: id
+            value_field: sf_id
+        Faculty__c:
+            key_field: faculty_id
+            table: contacts
+            join_field: id
+            value_field: sf_id
+# Programs
+Affiliations:
+    sf_object: Affiliation__c
+    table: affiliations
+    fields:
+        Id: sf_id
+        Description__c: description
+        EndDate__c: end_date
+        Primary__c: primary
+        Role__c: role
+        StartDate__c: start_date
+        Status__c: status
+    lookups:
+        Account__c:
+            key_field: account_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Contact__c:
+            key_field: contact_id
+            table: contacts
+            join_field: id
+            value_field: sf_id
+
+Program Enrollments:
+    sf_object: Program_Enrollment__c
+    table: program_enrollments
+    fields:
+        Id: sf_id
+        Admission_Date__c: admin_date
+        Graduation_Year__c: grad_year
+        Application_Submitted_Date__c: submitted_date
+        Class_Standing__c: class_standing
+        Credits_Attempted__c: credits_attempted
+        Credits_Earned__c: credits_earned
+        Eligible_to_Enroll__c: eligible_to_enroll
+        End_Date__c: end_date
+        Enrollment_Status__c: enrollment_status
+        GPA__c: gpa
+        Start_Date__c: start_date
+    lookups:
+        Contact__c:
+            key_field: contact_id
+            table: contacts
+            join_field: id
+            value_field: sf_id
+        Account__c:
+            key_field: program_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Affiliation__c:
+            key_field: affiliation_id
+            table: affiliations
+            join_field: id
+            value_field: sf_id
+
+Course Connections:
+    sf_object: Course_Enrollment__c
+    table: course_connections
+    fields:
+        Id: sf_id
+        Credits_Attempted__c: attempted
+        Credits_Earned__c: earned
+        Grade__c: grade
+        Primary__c: primary
+        Status__c: status
+    record_type: Student
+    lookups:
+        Affiliation__c:
+            key_field: affiliation_id
+            table: affiliations
+            join_field: id
+            value_field: sf_id
+        Contact__c:
+            key_field: contact_id
+            table: contacts
+            join_field: id
+            value_field: sf_id
+        Account__c:
+            key_field: account_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Course_Offering__c:
+            key_field: course_offering_id
+            table: accounts
+            join_field: id
+            value_field: sf_id
+        Program_Enrollment__c:
+            key_field: program_enrollment_id
+            table: accounts
+            join_field: id
+            value_field: sf_id

@@ -35,9 +35,22 @@ tasks:
         options:
             apex: >
                 UTIL_CustomSettingsFacade.getSettings();
-                STG_InstallScript.insertMappings();
                 STG_InstallScript.insertRelationshipLookups();
                 TDTM_Global_API.setTdtmConfig( TDTM_Global_API.getTdtmConfig() );
+
+    execute_mappings_apex:
+        description: Inserts the Affiliations automapping records from STG_InstallScript
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
+        options: 
+            apex: >
+                  STG_InstallScript.insertMappings()
+
+    execute_delete_mappings_apex:
+        description: Deletes the Affiliations automapping records from the connected org
+        class_path: cumlusci.tasks.apex.anon.AnonymousApexTask
+        options:
+            apex: >
+                delete [select ID from Affl_Mappings__c];
 
     download_browser_tests:
         description: Downloads the browser tests from the HEDA-Browser-Tests Github repository.
@@ -84,18 +97,35 @@ tasks:
             env:
                 SELENIUM_BROWSER: chrome
                 TARGET_ORG: unmanaged
-    mockaroo_contacts:
-        class_path: cumulusci_mockaroo.tasks.MockarooToSql
+
+    test_data_retrieve:
+        description: Pulls down mapped HEDA objects into a local sqlite db, to update the Astro U distro.
+        class_path: cumulusci.tasks.bulkdata.QueryData
         options:
-            schema: 'HEDA: Contacts'
-            count: 10
-            database_url: 'sqlite:///testdata.db'
-            table: 'Contact'
-            boolean_fields:
-                - FERPA__c
-                - Financial_Aid_Applicant__c
-                - HIPAA__C
-                - Military_Service__c
+            database_url: sqlite:///dev_config/data/astro_university.db
+            mapping: dev_config/data/mapping.yml
+
+    test_data_load:
+        description: Loads a test data set for HEDA Objects based on Astro U.
+        class_path: cumulusci.tasks.bulkdata.LoadData
+        options:
+            database_url: sqlite:///dev_config/data/astro_university.db
+            mapping: dev_config/data/mapping.yml
+
+    test_data_delete:
+        description: 'WARNING: Deletes all data in HEDA objects, Accounts, and Contacts.'
+        class_path: cumulusci.tasks.bulkdata.DeleteData
+        options:
+            objects:
+                - Course_Enrollment__c
+                - Program_Enrollment__c
+                - Affiliation__c
+                - Course_Offering__c
+                - Term__c
+                - Course__c
+                - Account
+                - Contact
+
 
     update_admin_profile:
         class_path: tasks.salesforce.UpdateAdminProfile
@@ -116,9 +146,10 @@ flows:
                 task: None
             6.1:
                 task: update_admin_profile
-
             6.2:
                 task: execute_install_apex
+            6.3:
+                task: execute_mappings_apex
     
     ci_beta:
         tasks:
@@ -154,6 +185,8 @@ flows:
                 task: deploy_dev_config
             9:
                 task: execute_install_apex
+            10:
+                task: execute_mappings_apex
 
     dev_org_namespaced:
         tasks:
@@ -164,6 +197,8 @@ flows:
                 task: deploy_dev_config
             9:
                 task: execute_install_apex
+            10: 
+                task: execute_mappings_apex
 
     install_beta:
         tasks:
