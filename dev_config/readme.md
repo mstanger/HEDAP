@@ -28,6 +28,21 @@ New/Modified tasks
 ### `execute_install_apex`
   Runs most of the install script methods from STG_InstallScript class
 
+### `execute_mappings_apex`
+  Adds default  Primary Affiliation Mappings
+
+### `execute_delete_mappings_apex`
+  Removes all Primary Affiliation Mappings
+
+### `test_data_load`
+  Loads the (currently 13 contact) Astro U data set
+
+### `test_data_delete`
+  Clears HED objects & Account & Contact
+
+### `test_data_retrive`
+  Captures HED objects, account, and contact to local sqlite3 db
+
 
 New/Modified Flows
 ------------------

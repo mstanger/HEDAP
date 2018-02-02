@@ -43,11 +43,11 @@ tasks:
         class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
         options: 
             apex: >
-                  STG_InstallScript.insertMappings()
+                  STG_InstallScript.insertMappings();
 
     execute_delete_mappings_apex:
         description: Deletes the Affiliations automapping records from the connected org
-        class_path: cumlusci.tasks.apex.anon.AnonymousApexTask
+        class_path: cumulusci.tasks.apex.anon.AnonymousApexTask
         options:
             apex: >
                 delete [select ID from Affl_Mappings__c];
@@ -186,6 +186,15 @@ flows:
             9:
                 task: execute_install_apex
             10:
+                task: execute_mappings_apex
+
+    dev_org_test_data:
+        tasks:
+            1: 
+                task: execute_delete_mappings_apex
+            2:
+                task: test_data_load
+            3:
                 task: execute_mappings_apex
 
     dev_org_namespaced:
