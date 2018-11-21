@@ -127,6 +127,12 @@ tasks:
                 - Contact
 
 
+    robot_libdoc:
+        class_path: cumulusci.tasks.robotframework.RobotLibDoc
+        options:
+            path: tests/HEDA.robot
+            output: tests/HEDA_Robot_Library.html
+
     update_admin_profile:
         class_path: tasks.salesforce.UpdateAdminProfile
 
